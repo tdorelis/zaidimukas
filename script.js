@@ -153,9 +153,21 @@ const figures = [
 function resizeCanvas() {
     const container = canvas.parentElement;
     const size = Math.min(container.clientWidth, container.clientHeight);
-    canvas.width = size;
-    canvas.height = size;
     
+    // Get the device pixel ratio, falling back to 1. 
+    const dpr = window.devicePixelRatio || 1;
+
+    // Set the canvas's internal size to be scaled by the DPR
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+
+    // Set the canvas's CSS size to match the desired display size
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
+
+    // Scale the context to ensure drawing operations are consistent
+    ctx.scale(dpr, dpr);
+
     // Calculate bounding box of the current figure
     const figure = figures[currentFigureIndex];
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
@@ -170,13 +182,13 @@ function resizeCanvas() {
     const figureHeight = maxY - minY;
 
     // Calculate scale to fit the figure within the canvas with padding
-    const scaleX = (canvas.width - 2 * padding) / figureWidth;
-    const scaleY = (canvas.height - 2 * padding) / figureHeight;
+    const scaleX = (size - 2 * padding) / figureWidth;
+    const scaleY = (size - 2 * padding) / figureHeight;
     currentScale = Math.min(scaleX, scaleY);
 
     // Calculate offset to center the figure
-    offsetX = (canvas.width - figureWidth * currentScale) / 2 - minX * currentScale;
-    offsetY = (canvas.height - figureHeight * currentScale) / 2 - minY * currentScale;
+    offsetX = (size - figureWidth * currentScale) / 2 - minX * currentScale;
+    offsetY = (size - figureHeight * currentScale) / 2 - minY * currentScale;
 }
 
 function getScaledPoint(point) {
@@ -261,8 +273,8 @@ function handleClick(event) {
     if (!audioCtx) playSound(); // Initialize audio on first user interaction
 
     const rect = canvas.getBoundingClientRect();
-    const x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
-    const y = (event.touches ? event.touches[0].clientY : event.clientY) - rect.top;
+    const x = ((event.touches ? event.touches[0].clientX : event.clientX) - rect.left) * (canvas.width / rect.width);
+    const y = ((event.touches ? event.touches[0].clientY : event.clientY) - rect.top) * (canvas.height / rect.height);
     
     const figure = figures[currentFigureIndex];
     const scaledPoints = figure.points.map(getScaledPoint);

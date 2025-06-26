@@ -12,6 +12,7 @@ body {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+    touch-action: none; /* Disable default touch actions */
 }
 
 .container {
@@ -34,6 +35,9 @@ canvas {
     flex-grow: 1;
     width: 100%;
     height: auto;
+    aspect-ratio: 1 / 1; /* Ensure canvas is always square */
+    max-height: 100%; /* Prevent canvas from overflowing its container vertically */
+    touch-action: none; /* Disable default touch actions */
 }
 
 .controls {
