@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sujunk Taškus</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sujunk Taškus</h1>
+        <div class="game-header">
+            <p id="figure-counter">Figūra 1 / 25</p>
+            <p id="instruction">Spausk tašką: 1</p>
+        </div>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div class="controls">
+            <button id="prevButton">&#x2B05;&#xFE0F;</button> <!-- Left Arrow -->
+            <button id="resetButton">&#x1F504;</button> <!-- Reload -->
+            <button id="nextButton">&#x27A1;&#xFE0F;</button> <!-- Right Arrow -->
+        </div>
+        <h2 id="figure-name"></h2>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
